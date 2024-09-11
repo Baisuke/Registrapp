@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recuperarpass',
   templateUrl: './recuperarpass.page.html',
   styleUrls: ['./recuperarpass.page.scss'],
 })
-export class RecuperarpassPage implements OnInit {
+export class ResetPasswordPage {
+  constructor(private router: Router) {}
 
-  constructor() { }
-
-  ngOnInit() {
+  recuperarPassword() {
+   
+    this.router.navigate(['/home']);
   }
-
 }

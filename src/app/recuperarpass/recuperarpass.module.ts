@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
 import { RecuperarpassPageRoutingModule } from './recuperarpass-routing.module';
-
-import { RecuperarpassPage } from './recuperarpass.page';
+import { ResetPasswordPage } from './recuperarpass.page';  
 
 @NgModule({
   imports: [
@@ -15,6 +12,6 @@ import { RecuperarpassPage } from './recuperarpass.page';
     IonicModule,
     RecuperarpassPageRoutingModule
   ],
-  declarations: [RecuperarpassPage]
+  declarations: [ResetPasswordPage]  
 })
 export class RecuperarpassPageModule {}

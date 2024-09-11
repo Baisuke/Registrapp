@@ -11,20 +11,20 @@
     <ion-card class="form-wrapper">
       <ion-card-content>
         <ion-item>
-          <ion-icon  name="person-outline"></ion-icon>
+          <ion-icon name="person-outline"></ion-icon>
           <ion-input type="text" placeholder="Usuario"></ion-input>
         </ion-item> 
         <ion-item>
           <ion-icon name="lock-closed"></ion-icon>
           <ion-input type="password" placeholder="Contraseña"></ion-input>
         </ion-item>
-        <ion-button expand="block">
+        <ion-button expand="block" (click)="onLogin()">
           Conectarse
         </ion-button>
-          <div class="additional-info">
-            <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
-            <p class="support-text">Si tienes problemas, contacta con <a href="#">soporte técnico</a>.</p>
-          </div>
+        <div class="additional-info">
+          <a [routerLink]="['/recuperarpass']" class="forgot-password">¿Olvidaste tu contraseña?</a>
+          <p class="support-text">Si tienes problemas, contacta con <a href="#">soporte técnico</a>.</p>
+        </div>
       </ion-card-content>
     </ion-card>
     <div class="progress-bar">

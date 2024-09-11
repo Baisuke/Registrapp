@@ -1,13 +1,28 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>recuperarpass</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div id="header">
+    <div id="app-bar">
+      <div id="logo">
+        <img src="assets/lg.png" alt=""/>
+      </div>
+    </div>
+  </div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">recuperarpass</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="reset-container">
+    <ion-card class="form-wrapper">
+      <ion-card-header>
+        <ion-card-title>Recuperar Contraseña</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item>
+          <ion-icon name="person-outline"></ion-icon>
+          <ion-input type="text" placeholder="Nombre de Usuario" required></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" color="primary" (click)="recuperarPassword()">
+          Recuperar
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

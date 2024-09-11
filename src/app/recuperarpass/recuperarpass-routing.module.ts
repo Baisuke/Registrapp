@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { RecuperarpassPage } from './recuperarpass.page';
+import { ResetPasswordPage } from './recuperarpass.page';  
 
 const routes: Routes = [
   {
     path: '',
-    component: RecuperarpassPage
+    component: ResetPasswordPage  // 
   }
 ];
 
