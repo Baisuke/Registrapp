@@ -11,11 +11,21 @@ export class LobbyPage {
 
   constructor(private router: Router) {
     const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras.state as { nombre_usuario: string };
+    const state = navigation?.extras.state as { nombre_usuario: string };}
 
-    // Asignar el nombre de usuario pasado desde la página anterior
-    if (state && state.nombre_usuario) {
-      this.nombre_usuario = state.nombre_usuario;
+    ngOnInit() {
+      // Obtener el nombre del usuario pasado desde la página anterior
+      const navigation = this.router.getCurrentNavigation();
+      if (navigation?.extras?.state) {
+        this.nombre_usuario = navigation.extras.state['nombre_usuario'] || 'usuario';
+      }
     }
-  }
+    
+    cerrarSesion(){
+      // Aquí puedes agregar la lógica de limpieza de datos de sesión, si es necesario
+      // Redirigir al usuario a la página de inicio
+      this.router.navigate(['/home']);
+    }
+
+
 }

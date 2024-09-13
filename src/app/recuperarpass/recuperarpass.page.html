@@ -1,5 +1,11 @@
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true">
+
   <div id="header">
+    <div id="back-button">
+      <ion-button (click)="back()" fill="clear">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </div>
     <div id="app-bar">
       <div id="logo">
         <img src="assets/lg.png" alt=""/>
@@ -16,13 +22,17 @@
       <ion-card-content>
         <ion-item>
           <ion-icon name="person-outline"></ion-icon>
-          <ion-input type="text" placeholder="Nombre de Usuario" required></ion-input>
+          <ion-input type="text" placeholder="Nombre de Usuario" [(ngModel)]="usuario"></ion-input>
         </ion-item>
 
-        <ion-button expand="block" color="primary" (click)="recuperarPassword()">
+        <ion-button expand="block" color="primary" (click)="resetPass()">
           Recuperar
         </ion-button>
       </ion-card-content>
     </ion-card>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress"></div>
   </div>
 </ion-content>

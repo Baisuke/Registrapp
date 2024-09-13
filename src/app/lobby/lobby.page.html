@@ -1,4 +1,40 @@
-<ion-content [fullscreen]="true">
+<ion-menu side="start" menuId="first" contentId="main-content">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Menú de Bienvenida</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <ion-item>
+        <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+        <ion-label>Perfil</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="settings-outline" slot="start"></ion-icon>
+        <ion-label>Configuraciones</ion-label>
+      </ion-item>
+
+      <ion-item (click)="cerrarSesion()">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        <ion-label>Cerrar sesión</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-content id="main-content" [fullscreen]="true">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Bienvenido</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
   <div id="header">
     <div id="app-bar">
       <div id="logo">
@@ -10,8 +46,7 @@
   <div class="wrapper">
     <ion-card class="form-wrapper">
       <ion-card-content>
-        <h1>Bienvenido, {{ nombre_usuario }}</h1>
-        <!-- Puedes agregar más contenido aquí -->
+        <h1>Hola, bienvenido {{ nombre_usuario }}</h1>
       </ion-card-content>
     </ion-card>
   </div>

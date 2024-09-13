@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -7,20 +8,37 @@ import { Router } from '@angular/router';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  usuario: string = '';  // Variable para almacenar el nombre de usuario
-  password: string = ''; // Variable para almacenar la contraseña
+  usuario: string = '';  //NOMBRE
+  password: string = ''; // CONTRASEGNA
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private alertController: AlertController
+  ) {}
 
+ //INICIO SESION
   onLogin() {
-    // Validar si el nombre de usuario y la contraseña están completos
+    //VALIDA LOS DATOS
     if (this.usuario && this.password) {
-      // Redirigir a la página de bienvenida (lobby) y pasar el nombre de usuario
+      //IR A PAGINA LOBBY
       this.router.navigate(['/lobby'], {
         state: { nombre_usuario: this.usuario }
       });
     } else {
-      console.log('Por favor, ingresa tu nombre de usuario y contraseña.');
+      //FALTAN DATOS
+      this.presentAlert('Error', 'Datos incompletos', 'Por favor, ingresa tu nombre de usuario y contraseña.');
     }
+  }
+
+  //MOSTRAR ALERTA
+  async presentAlert(header: string, subHeader: string, message: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      subHeader: subHeader,
+      message: message,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
   }
 }

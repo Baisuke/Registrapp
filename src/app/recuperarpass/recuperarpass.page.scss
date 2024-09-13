@@ -1,7 +1,8 @@
 ion-content {
     --background: #1a1a1a;
     --background: linear-gradient(135deg, #1a1a1a 30%, #666666 100%);
-    
+   
+    }
     #header {
       height: 30%;
       background: #FFB800;
@@ -11,9 +12,11 @@ ion-content {
       color: #fff;
       padding: 20px;
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
-  
+      .back-button{
+        color: #1a1a1a;
+      }
       #app-bar {
-        height: 80px;
+        height: 20px;
         display: flex;
         justify-content: center; 
         align-items: center;
@@ -48,19 +51,22 @@ ion-content {
       line-height: 1.4;
       color: #1a1a1a;
     }
-  
+    .reset-container
+    { 
+      margin-top: 30%;
+    }
     .wrapper {
       position: absolute;
-      top: 35%; // Mover más abajo para mejor balance visual
+      top: 65%; 
       left: 4%;
       right: 4%;
       margin-top: 10%;
   
       .form-wrapper {
-        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); // Sombra para destacar el formulario
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
         border-radius: 20px;
         padding: 20px 15px;
-        background-color: #fff; // Fondo blanco para destacar el formulario
+        background-color: #fff; 
   
         ion-item {
           --background: #eFeFeF;
@@ -85,14 +91,14 @@ ion-content {
           }
   
           &:hover {
-            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); // Sombra al hacer hover
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); 
           }
         }
   
         ion-button {
           margin-top: 25px;
-          border-radius: 10px; // Botones más redondeados
-          transition: all 0.3s ease; // Transición suave
+          border-radius: 10px; 
+          transition: all 0.3s ease; 
           font-weight: bold;
         }
   
@@ -106,43 +112,14 @@ ion-content {
         }
       }
     }
-    .additional-info {
-      margin-top: 15px;
-      text-align: center;
     
-      .forgot-password {
-        color: #ffb800;
-        font-size: 14px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: color 0.3s ease;
-    
-        &:hover {
-          color: #ffda66; // Cambia a un color más claro en hover
-        }
-      }
-    
-      .support-text {
-        margin-top: 10px;
-        font-size: 12px;
-        color: #fff;
-        
-        a {
-          color: #ffb800;
-          text-decoration: underline;
-          
-          &:hover {
-            color: #ffda66;
-          }
-        }
-      }
-    }
     .progress-bar {
       background-color: #e0e0e0;
       border-radius: 10px;
       margin: 20px 0;
       height: 10px;
       width: 100%;
+      margin-top: 30%;
     }
     
     .progress {
@@ -154,4 +131,4 @@ ion-content {
     
     
     
-  }
+  

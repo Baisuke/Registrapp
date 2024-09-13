@@ -1,3 +1,38 @@
+#header {
+  height: 20%;
+  background: #FFB800;
+  border-radius: 0 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  padding: 5px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
+
+  #app-bar {
+    height: 10px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+
+    #logo {
+      background-color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 95%;
+      padding: 10px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+      width: 90%;
+      height: 120px;
+      margin-top: 30%;
+
+      img {
+        width: 100%;
+      }
+    }
+  }
+}
+
 .welcome-message {
     text-align: center;
     margin-top: 20px;
@@ -10,10 +45,14 @@
   ion-card {
     padding: 15px;
     margin-top: 20px;
+    color: #FFB800;
   }
   
   .additional-info {
     margin-top: 10px;
     text-align: center;
   }
-  
+  ion-content {
+    --background: #1a1a1a;
+    --background: linear-gradient(135deg, #1a1a1a 30%, #666666 100%);
+  } 
