@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-lobby',
@@ -7,25 +8,48 @@ import { Router } from '@angular/router';
   styleUrls: ['./lobby.page.scss'],
 })
 export class LobbyPage {
-  nombre_usuario: string = '';  // Variable para almacenar el nombre de usuario
+  nombre_usuario: string = '';  
+  audio: any;
+  song: Array<{ title: string; path: string }> = [
+    { title: 'Cancion 1', path: 'assets/audio/a.mp3' },
+  ];
+  cancionActual: number = 0;  
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private alertController: AlertController) {
     const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras.state as { nombre_usuario: string };}
+    const state = navigation?.extras.state as { nombre_usuario: string };
+  }
 
-    ngOnInit() {
-      // Obtener el nombre del usuario pasado desde la página anterior
-      const navigation = this.router.getCurrentNavigation();
-      if (navigation?.extras?.state) {
-        this.nombre_usuario = navigation.extras.state['nombre_usuario'] || 'usuario';
-      }
+  cargarCancion(index: number) {
+    if (this.audio) {
+      this.audio.pause(); 
     }
-    
-    cerrarSesion(){
-      // Aquí puedes agregar la lógica de limpieza de datos de sesión, si es necesario
-      // Redirigir al usuario a la página de inicio
-      this.router.navigate(['/home']);
+    this.audio = new Audio(this.song[index].path); 
+    this.audio.play(); 
+  }
+
+  ngOnInit() {
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras?.state) {
+      this.nombre_usuario = navigation.extras.state['nombre_usuario'] || 'usuario';
     }
 
+    this.cargarCancion(this.cancionActual);
+  }
 
+  cerrarSesion() {
+    this.router.navigate(['/home']);
+    this.audio.pause(); 
+  }
+
+  async presentAlert(header: string, subHeader: string, message: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      subHeader: subHeader,
+      message: message,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
 }
