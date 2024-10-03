@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-home',
@@ -12,18 +13,20 @@ export class HomePage {
   password: string = ''; // CONTRASEGNA
 
   constructor(
-    private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private authService: AuthService, private router: Router
   ) {}
 
  //INICIO SESION
   onLogin() {
     //VALIDA LOS DATOS
     if (this.usuario && this.password) {
-      //IR A PAGINA LOBBY
-      this.router.navigate(['/lobby'], {
-        state: { nombre_usuario: this.usuario }
-      });
+        if (this.authService.login(this.usuario, this.password)) {
+        //aprovechamos de usar state para llevar la informacion al dashboard.
+        this.router.navigate(['/lobby'], { state: { username: this.usuario } });
+        } else {
+        alert('Nombre de usuario o contraseña incorrectos');
+        };
     } else {
       //FALTAN DATOS
       this.presentAlert('Error', 'Datos incompletos', 'Por favor, ingresa tu nombre de usuario y contraseña.');

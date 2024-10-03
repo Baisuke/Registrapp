@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { CanComponentDeactivate } from '../candeactivate.guard';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.page.html',
   styleUrls: ['./lobby.page.scss'],
 })
-export class LobbyPage {
+export class LobbyPage implements CanComponentDeactivate {
   nombre_usuario: string = '';  
   audio: any;
   song: Array<{ title: string; path: string }> = [
@@ -15,10 +17,7 @@ export class LobbyPage {
   ];
   cancionActual: number = 0;  
 
-  constructor(private router: Router, private alertController: AlertController) {
-    const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras.state as { nombre_usuario: string };
-  }
+  constructor(private router: Router, private alertController: AlertController, private authService: AuthService) {}
 
   cargarCancion(index: number) {
     if (this.audio) {
@@ -37,9 +36,16 @@ export class LobbyPage {
     this.cargarCancion(this.cancionActual);
   }
 
-  cerrarSesion() {
-    this.router.navigate(['/home']);
-    this.audio.pause(); 
+  canDeactivate(): boolean {
+    return confirm('¿Estás seguro que deseas cerrar sesión?');
+  }
+
+  logout() {
+    if (this.canDeactivate()) {
+      this.authService.logout(); // Cerrar sesión
+      console.log("Sesión cerrada");
+      this.router.navigate(['/home']);
+    }
   }
 
   async presentAlert(header: string, subHeader: string, message: string) {

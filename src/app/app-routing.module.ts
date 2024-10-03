@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { canActivate } from './canactivate.guard';
+import { CanmatchGuard } from './canmatch.guard';
+import { CanDeactivateGuard } from './candeactivate.guard';
 
 const routes: Routes = [
   {
@@ -17,7 +20,10 @@ const routes: Routes = [
   },
   {
     path: 'lobby',
-    loadChildren: () => import('./lobby/lobby.module').then(m => m.LobbyPageModule)
+    loadChildren: () => import('./lobby/lobby.module').then(m => m.LobbyPageModule),
+   canActivate: [canActivate],
+   canMatch: [CanmatchGuard],
+   canDeactivate: [CanDeactivateGuard]
   }
 ];
 
