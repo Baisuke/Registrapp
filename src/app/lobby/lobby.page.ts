@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { CanComponentDeactivate } from '../candeactivate.guard';
 import { AuthService } from '../auth.service';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-lobby',
@@ -16,9 +17,15 @@ export class LobbyPage implements CanComponentDeactivate {
     { title: 'Cancion 1', path: 'assets/audio/a.mp3' },
   ];
   cancionActual: number = 0;  
+  nombreAlmacenado: string | null = null;
 
-  constructor(private router: Router, private alertController: AlertController, private authService: AuthService) {}
-
+  constructor(private router: Router, private alertController: AlertController, private authService: AuthService,private storage: Storage) {
+    this.initStorage()
+  }
+  async initStorage() {
+    await this.storage.create();
+    await this.obtenerNombre();
+    }
   cargarCancion(index: number) {
     if (this.audio) {
       this.audio.pause(); 
@@ -26,7 +33,10 @@ export class LobbyPage implements CanComponentDeactivate {
     this.audio = new Audio(this.song[index].path); 
     this.audio.play(); 
   }
-
+  async obtenerNombre() {
+    this.nombreAlmacenado = await this.storage.get('nombre');
+    console.log('Nombre almacenado:', this.nombreAlmacenado);
+    }
   ngOnInit() {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras?.state) {
