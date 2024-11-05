@@ -24,7 +24,15 @@ const routes: Routes = [
    canActivate: [canActivate],
    canMatch: [CanmatchGuard],
    canDeactivate: [CanDeactivateGuard]
+  },  {
+    path: 'create',
+    loadChildren: () => import('./create/create.module').then( m => m.CreatePageModule)
+  },
+  {
+    path: 'edit',
+    loadChildren: () => import('./edit/edit.module').then( m => m.EditPageModule)
   }
+
 ];
 
 @NgModule({

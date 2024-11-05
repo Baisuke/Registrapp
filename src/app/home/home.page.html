@@ -12,7 +12,12 @@
       <ion-card-content>
         <ion-item>
           <ion-icon name="person-outline"></ion-icon>
-          <ion-input type="text" placeholder="Usuario" [(ngModel)]="nombreAlmacenado"></ion-input>
+          <ion-input 
+            type="text" 
+            placeholder="Usuario" 
+            [(ngModel)]="nombreAlmacenado" 
+            (ngModelChange)="actualizarUsuario($event)">
+          </ion-input>
         </ion-item> 
         <ion-item>
           <ion-icon name="lock-closed"></ion-icon>

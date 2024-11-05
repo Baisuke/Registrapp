@@ -24,9 +24,14 @@ export class HomePage {
   }
   async initStorage() {
     await this.storage.create(); // Inicializamos el storage antes de usarlo
-    }
+  }
 
- //INICIO SESION
+  // Actualizar usuario cada vez que cambia nombreAlmacenado
+  actualizarUsuario(valor: string | null) {
+    this.usuario = valor || '';
+  }
+
+  //INICIO SESION
   onLogin() {
     //VALIDA LOS DATOS
     if (this.usuario && this.password) {
