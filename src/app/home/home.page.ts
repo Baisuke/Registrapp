@@ -47,8 +47,8 @@ export class HomePage {
     }
   }
   guardarNombre() {
-    this.storage.set('nombre', this.nombre);
-    console.log('Nombre guardado:', this.nombre);
+    this.storage.set('nombre', this.usuario);
+    console.log('Nombre guardado:', this.usuario);
   }
   async eliminarNombre() {
       await this.storage.remove('nombre');

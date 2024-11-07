@@ -55,9 +55,13 @@
   </div>
 
   <ion-list>
-    <ion-button (click)="addPosts()">
-      <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
-    </ion-button>
+    <ion-item>
+      <!-- Botón de agregar post a la derecha -->
+      <ion-button (click)="addPosts()" class="add-post-btn">
+        <ion-icon slot="icon-only" name="pencil"></ion-icon>
+      </ion-button>
+    </ion-item>
+  
     <ion-item *ngFor="let post of posts">
       <ion-label>
         <h2>{{ post.title }}</h2>
@@ -65,12 +69,13 @@
       </ion-label>
       <ion-buttons slot="end">
         <ion-button (click)="editPost(post)">
-          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+          <ion-icon slot="icon-only" name="create"></ion-icon>
         </ion-button>
         <ion-button (click)="confirmDelete(post.id)">
-          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          <ion-icon slot="icon-only" name="remove"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-item>
   </ion-list>
+  
 </ion-content>
