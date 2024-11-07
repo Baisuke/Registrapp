@@ -58,59 +58,115 @@ export class LobbyPage implements CanComponentDeactivate, OnInit {
 
     this.cargarCancion(this.cancionActual);
 
-    this.apiService.getPosts().subscribe((data: any) => {
+    this.loadPosts();
+  }
+  loadPosts() {
+    this.apiService.getPosts().subscribe((data: any[]) => {
       this.posts = data;
     });
   }
 
-  createPost() {
-    // Here, you can prompt the user for the title and content of the new post
-    this.alertController.create({
-      header: 'Nuevo Post',
+  async addPosts() {
+    const alert = await this.alertController.create({
+      header: 'Añadir Post',
       inputs: [
         {
           name: 'title',
           type: 'text',
-          placeholder: 'Título'
+          placeholder: 'Título del Post',
         },
         {
           name: 'body',
-          type: 'text',
-          placeholder: 'Contenido'
-        }
+          type: 'textarea',
+          placeholder: 'Contenido del Post',
+        },
       ],
       buttons: [
         {
           text: 'Cancelar',
           role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Post cancelado');
-          }
         },
         {
-          text: 'Agregar',
+          text: 'Guardar',
           handler: (data) => {
-            const newPost = {
-              title: data.title,
-              body: data.body
-            };
-            this.apiService.createPost(newPost).subscribe(() => {
-              this.posts.push(newPost); // Add new post to local array
-              console.log('Post creado:', newPost);
+            this.apiService.addPost(data).subscribe((newNota) => {
+              this.posts.push(newNota);
             });
-          }
-        }
-      ]
-    }).then(alert => alert.present());
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
-  editPost(id: number) {
-    console.log('Editando el post con ID:', id);
-    this.navCtrl.navigateForward('/edit', {
-      state: {
-        postId: id,
-      },
+  async editPost(post: any) {
+    const alert = await this.alertController.create({
+      header: 'Editar Post',
+      inputs: [
+        {
+          name: 'title',
+          type: 'text',
+          value: post.title,
+          placeholder: 'Título del Post',
+        },
+        {
+          name: 'body',
+          type: 'textarea',
+          value: post.body,
+          placeholder: 'Contenido del Post',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Guardar',
+          handler: (data) => {
+            const updatedPost = { ...post, ...data };
+            console.log('Post actualizado:', updatedPost);  // Verifica que la actualización esté correcta
+            
+            this.apiService.updatePost(updatedPost.id, updatedPost).subscribe(() => {
+              const index = this.posts.findIndex((p) => p.id === updatedPost.id);
+              if (index > -1) {
+                this.posts[index] = updatedPost;
+              }
+            });
+          },
+        },
+      ],
+    });
+  
+    await alert.present();
+  }
+  
+  
+  async confirmDelete(id: number) {
+    const alert = await this.alertController.create({
+      header: 'Eliminar Post',
+      message: '¿Estás seguro de que deseas eliminar este post?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            this.deletePosts(id);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  deletePosts(id: number) {
+    this.apiService.deletePost(id).subscribe(() => {
+      this.posts = this.posts.filter((posts) => posts.id !== id);
     });
   }
 

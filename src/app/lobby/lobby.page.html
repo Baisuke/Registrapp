@@ -47,7 +47,6 @@
     <ion-card class="form-wrapper">
       <ion-card-content>
         <h1>Hola, bienvenido {{ nombreAlmacenado }}</h1>
-        <ion-button expand="full" (click)="createPost()">Agregar Post</ion-button>
       </ion-card-content>
       <div id="gif">
         <img src="assets/cat-space.gif" alt="Logo"/>
@@ -56,10 +55,22 @@
   </div>
 
   <ion-list>
+    <ion-button (click)="addPosts()">
+      <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+    </ion-button>
     <ion-item *ngFor="let post of posts">
-      {{ post.title }}
-      <ion-button fill="outline" (click)="editPost(post.id)">Editar</ion-button>
-      <ion-button fill="outline" color="danger" (click)="deletePost(post.id)">Eliminar</ion-button>
+      <ion-label>
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.body }}</p>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button (click)="editPost(post)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button (click)="confirmDelete(post.id)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-item>
   </ion-list>
 </ion-content>
