@@ -36,13 +36,6 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
 
-/*qr scanner*/
-body.scanner-active {
-    --background: transparent;
-    background: transparent;
-    --ion-background-color: transparent;
-}
-
 
 ion-button{
     height: 40px;

@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { CanDeactivateGuard } from '../candeactivate.guard';
 
-import { QrPage } from './qr.page';
+import { AdminPage } from './admin.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: QrPage
+    component: AdminPage,
+    canDeactivate: [CanDeactivateGuard],
   }
 ];
 
@@ -14,4 +16,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class QrPageRoutingModule {}
+export class AdminPageRoutingModule {}

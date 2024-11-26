@@ -38,7 +38,7 @@
   <div id="header">
     <div id="app-bar">
       <div id="logo">
-        <img src="assets/lg.png" alt="Logo"/>
+        <img src="assets/lg.png" alt="Logo" />
       </div>
     </div>
   </div>
@@ -49,7 +49,15 @@
         <h1>Hola, bienvenido {{ nombreAlmacenado }}</h1>
       </ion-card-content>
       <div id="gif">
-        <img src="assets/cat-space.gif" alt="Logo"/>
+        <img src="assets/cat-space.gif" alt="Logo" />
+      </div>
+
+      <!-- Botón centralizado para Iniciar Clase -->
+      <div class="start-class-btn">
+        <ion-button expand="block" color="success" (click)="startClass()">
+          <ion-icon slot="start" name="school"></ion-icon>
+          Iniciar Clase
+        </ion-button>
       </div>
     </ion-card>
   </div>
@@ -61,7 +69,7 @@
         <ion-icon slot="icon-only" name="pencil"></ion-icon>
       </ion-button>
     </ion-item>
-  
+
     <ion-item *ngFor="let post of posts">
       <ion-label>
         <h2>{{ post.title }}</h2>
@@ -77,5 +85,13 @@
       </ion-buttons>
     </ion-item>
   </ion-list>
-  
 </ion-content>
+
+<style>
+  .start-class-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+</style>
