@@ -5,7 +5,9 @@ import { CanComponentDeactivate } from '../candeactivate.guard';
 import { AuthService } from '../auth.service';
 import { ApiService } from '../services/api.service';
 import { Storage } from '@ionic/storage-angular';
-
+import * as QRCode from 'qrcode';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.page.html',
@@ -15,31 +17,75 @@ export class AdminPage implements CanComponentDeactivate, OnInit {
   nombre_usuario: string = '';
   nombreAlmacenado: string | null = null;
   posts: any[] = [];
+  qrCodeUrl: string = '';
+  userData: any;
+  qrCodes: Array<{ section: string; url: string }> = [];
+  sections = [
+    { id: 'A', name: '002D', subject: 'Programación de aplicaciones móviles' },
+    { id: 'B', name: '004D', subject: 'Programación de aplicaciones móviles' },
+    { id: 'C', name: '006D', subject: 'Programación de aplicaciones móviles' },
+    { id: 'D', name: '008D', subject: 'Programación de aplicaciones móviles' },
+  ];
+  selectedQRCode: string | null = null;
 
   constructor(
     private router: Router,
     private alertController: AlertController,
     private authService: AuthService,
     private apiService: ApiService,
-    private storage: Storage
+    private storage: Storage,
+    private http: HttpClient
   ) {}
 
+  
+  async generateQRCode(section: any) {
+    const data = {
+      section: section.name,
+      subject: section.subject,
+      sessionId: new Date().toISOString(), // Identificador único
+    };
+
+    try {
+      const qrCodeUrl = await QRCode.toDataURL(JSON.stringify(data));
+      this.qrCodes = [
+        ...this.qrCodes.filter(qr => qr.section !== section.name), // Evita duplicados
+        { section: section.name, url: qrCodeUrl },
+      ];
+
+      this.selectedQRCode = qrCodeUrl; // Actualiza la imagen del QR
+    } catch (err) {
+      console.error('Error al generar el código QR:', err);
+    }
+  }
+
+
+  generateSessionId(): string {
+    return Math.random().toString(36).substring(2, 15); 
+  }
   async ngOnInit() {
     await this.storage.create();
     this.obtenerNombre();
 
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras?.state) {
-      // Si no se pasa un nombre desde la navegación, se asigna el nombre de 'profesor'
       this.nombre_usuario = navigation.extras.state['nombre_usuario'] || 'profesor';
     } else {
       this.nombre_usuario = this.nombreAlmacenado || 'profesor';
     }
-
+    this.loadUserData();
     this.loadPosts();
   }
-
-  // Función para obtener el nombre almacenado
+  loadUserData() {
+    this.apiService.getUserData().subscribe(
+      (data) => {
+        this.userData = data;
+        console.log('Datos recibidos:', this.userData);
+      },
+      (error) => {
+        console.error('Error al obtener los datos', error);
+      }
+    );
+  }
   async obtenerNombre() {
     this.nombreAlmacenado = await this.storage.get('nombre');
     console.log('Nombre almacenado:', this.nombreAlmacenado);
@@ -181,5 +227,8 @@ export class AdminPage implements CanComponentDeactivate, OnInit {
     console.log('Clase iniciada');
     // Por ejemplo, puedes redirigir a otra página, o realizar alguna acción relacionada
     this.router.navigate(['/class']);
+  }
+  resetToGif() {
+    this.selectedQRCode = null;
   }
 }

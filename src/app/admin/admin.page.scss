@@ -1,0 +1,137 @@
+ion-content {
+  --background: linear-gradient(135deg, #1a1a1a 30%, #666666 100%);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  #header {
+    height: 20%;
+    background: #FFB800;
+    border-radius: 0 0 20px 20px;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    padding: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+
+    #app-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      #logo {
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        padding: 15px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        width: 140px;
+        height: 140px; // Ajustado para mayor claridad
+
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+  }
+
+  .wrapper {
+    margin-top: 20px;
+
+    .form-wrapper {
+      background: linear-gradient(135deg, #444 30%, #222 100%);
+      color: #fff;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+      text-align: center;
+
+      h1 {
+        margin-bottom: 15px;
+        font-size: 18px;
+      }
+
+      #gif img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin-top: 10px;
+      }
+    }
+  }
+
+  ion-card {
+    padding: 15px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+    margin: 20px 0;
+
+    .start-class-btn {
+      display: flex;
+      justify-content: center;
+
+      ion-button {
+        border-radius: 10px;
+        font-weight: bold;
+        transition: transform 0.3s ease;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+
+  ion-list {
+    ion-item {
+      background: #444;
+      color: #fff;
+      margin: 5px 0;
+      border-radius: 10px;
+
+      ion-button {
+        --background: #ffb800;
+        --color: #fff;
+        transition: transform 0.3s ease;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+
+        &[slot="end"] {
+          margin-left: 10px;
+        }
+      }
+    }
+
+    .add-post-btn {
+      margin-left: auto;
+      --background: #ffb800;
+      --color: #fff;
+    }
+  }
+
+  .welcome-message {
+    text-align: center;
+    color: #fff;
+    font-size: 16px;
+    margin: 20px 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  ion-content #header #app-bar #logo {
+    width: 180px;
+    height: 180px; // Mayor tamaño en pantallas grandes
+  }
+
+  .wrapper .form-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}

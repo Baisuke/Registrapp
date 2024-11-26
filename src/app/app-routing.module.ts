@@ -1,42 +1,29 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { canActivate } from './canactivate.guard';
+import { RouterModule, Routes } from '@angular/router';
+import { RoleGuard } from './auth/role.guard';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'home',  // Redirige a la página de inicio
-    pathMatch: 'full',
-  },
-  {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
-  },
-  {
-    path: 'recuperarpass',
-    loadChildren: () =>
-      import('./recuperarpass/recuperarpass.module').then(
-        (m) => m.RecuperarpassPageModule
-      ),
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then((m) => m.AdminPageModule),
+    canActivate: [RoleGuard],
+    data: { role: 'profesor' },
   },
   {
     path: 'lobby',
-    loadChildren: () =>
-      import('./lobby/lobby.module').then((m) => m.LobbyPageModule),
-    canActivate: [canActivate], // Protege esta ruta
+    loadChildren: () => import('./lobby/lobby.module').then((m) => m.LobbyPageModule),
+    canActivate: [RoleGuard],
+    data: { role: 'usuario' },
   },
   {
-    path: 'admin',
-    loadChildren: () =>
-      import('./admin/admin.module').then((m) => m.AdminPageModule),
-    canActivate: [canActivate], // Protege esta ruta
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
   },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
-  ],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

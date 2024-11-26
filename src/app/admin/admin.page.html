@@ -38,7 +38,7 @@
   <div id="header">
     <div id="app-bar">
       <div id="logo">
-        <img src="assets/lg.png" alt="Logo" />
+        <img src="assets/lg.png" alt="Logo"/>
       </div>
     </div>
   </div>
@@ -49,19 +49,27 @@
         <h1>Hola, bienvenido {{ nombreAlmacenado }}</h1>
       </ion-card-content>
       <div id="gif">
-        <img src="assets/cat-space.gif" alt="Logo" />
-      </div>
-
-      <!-- Botón centralizado para Iniciar Clase -->
-      <div class="start-class-btn">
-        <ion-button expand="block" color="success" (click)="startClass()">
-          <ion-icon slot="start" name="school"></ion-icon>
-          Iniciar Clase
-        </ion-button>
+        <img 
+          [src]="selectedQRCode || 'assets/cat-space.gif'" 
+          alt="Código QR o GIF" 
+          [style.width.px]="selectedQRCode ? 300 : null" 
+          [style.height.px]="selectedQRCode ? 300 : null"
+        />
       </div>
     </ion-card>
   </div>
-
+  <div>
+    <ion-card>
+      <h2>Generar QR para Secciones</h2>
+      <ion-button *ngIf="selectedQRCode" (click)="resetToGif()">Deshacer</ion-button>
+      <ion-list>
+        <ion-item *ngFor="let section of sections">
+          <ion-label>{{ section.name }}</ion-label>
+          <ion-button (click)="generateQRCode(section)">Generar QR</ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-card>
+  </div>
   <ion-list>
     <ion-item>
       <!-- Botón de agregar post a la derecha -->

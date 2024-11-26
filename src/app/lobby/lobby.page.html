@@ -48,16 +48,16 @@
       <ion-card-content>
         <h1>Hola, bienvenido {{ nombreAlmacenado }}</h1>
       </ion-card-content>
-      <div id="gif">
-        <img src="assets/cat-space.gif" alt="Logo"/>
-      </div>
+      <div class="center-button">
+        <ion-button (click)="scanQRCode()">Escanear QR</ion-button>
+      </div>    
     </ion-card>
   </div>
 
   <ion-list>
     <ion-item>
       <!-- Botón de agregar post a la derecha -->
-      <ion-button (click)="addPosts()" class="add-post-btn">
+      <ion-button (click)="addPost()" class="add-post-btn">
         <ion-icon slot="icon-only" name="pencil"></ion-icon>
       </ion-button>
     </ion-item>

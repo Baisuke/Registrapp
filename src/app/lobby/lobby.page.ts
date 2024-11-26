@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { CanComponentDeactivate } from '../candeactivate.guard';
 import { AuthService } from '../auth.service';
 import { Storage } from '@ionic/storage-angular';
 import { ApiService } from '../services/api.service';
+import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+import { Share } from '@capacitor/share';
+import { UserDataService } from '../user-data.service';
 
 @Component({
   selector: 'app-lobby',
@@ -12,14 +15,15 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./lobby.page.scss'],
 })
 export class LobbyPage implements CanComponentDeactivate, OnInit {
+  // **Propiedades**
   nombre_usuario: string = '';
-  audio: any;
-  song: Array<{ title: string; path: string }> = [
-    { title: 'Cancion 1', path: 'assets/audio/a.mp3' },
-  ];
-  cancionActual: number = 0;
   nombreAlmacenado: string | null = null;
+  audio: any;
+  cancionActual: number = 0;
   posts: any[] = [];
+  song: Array<{ title: string; path: string }> = [
+    { title: 'Canción 1', path: 'assets/audio/a.mp3' },
+  ];
 
   constructor(
     private router: Router,
@@ -27,65 +31,83 @@ export class LobbyPage implements CanComponentDeactivate, OnInit {
     private authService: AuthService,
     private storage: Storage,
     private apiService: ApiService,
-    private navCtrl: NavController
+    private userDataService: UserDataService
   ) {
     this.initStorage();
   }
 
-  async initStorage() {
-    await this.storage.create();
+  // **Métodos de ciclo de vida**
+  async ngOnInit() {
+    this.nombre_usuario = this.router.getCurrentNavigation()?.extras?.state?.['nombre_usuario'] || 'usuario';
+    this.cargarCancion(this.cancionActual);
+    this.loadPosts();
     await this.obtenerNombre();
   }
 
-  cargarCancion(index: number) {
-    if (this.audio) {
-      this.audio.pause();
-    }
-    this.audio = new Audio(this.song[index].path);
-    this.audio.play();
+  // **Inicialización de Storage**
+  private async initStorage() {
+    await this.storage.create();
   }
 
-  async obtenerNombre() {
+  private async obtenerNombre() {
     this.nombreAlmacenado = await this.storage.get('nombre');
     console.log('Nombre almacenado:', this.nombreAlmacenado);
   }
 
-  ngOnInit() {
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras?.state) {
-      this.nombre_usuario = navigation.extras.state['nombre_usuario'] || 'usuario';
+  // **Manejo de QR**
+  async scanQRCode() {
+    try {
+      await BarcodeScanner.prepare();
+
+      const result = await BarcodeScanner.startScan();
+      if (result.hasContent) {
+        const scannedData = JSON.parse(result.content); // Decodificar JSON del QR
+        const userData = {
+          user: 'Alumno123',
+          date: new Date().toISOString(),
+          subject: scannedData.subject,
+          section: scannedData.section,
+          sessionId: scannedData.sessionId,
+        };
+
+        this.sendUserData(userData);
+      }
+    } catch (err) {
+      console.error('Error al escanear el QR:', err);
     }
-
-    this.cargarCancion(this.cancionActual);
-
-    this.loadPosts();
   }
-  loadPosts() {
+
+  private sendUserData(userData: any) {
+    this.userDataService.sendUserData(userData).subscribe(
+      (response) => console.log('Datos enviados correctamente', response),
+      (error) => console.error('Error al enviar los datos', error)
+    );
+  }
+
+  async shareContent(content: string) {
+    await Share.share({
+      title: 'Código QR Escaneado',
+      text: content,
+      dialogTitle: 'Compartir contenido',
+    });
+  }
+
+  // **Manejo de Posts**
+  private loadPosts() {
     this.apiService.getPosts().subscribe((data: any[]) => {
       this.posts = data;
     });
   }
 
-  async addPosts() {
+  async addPost() {
     const alert = await this.alertController.create({
       header: 'Añadir Post',
       inputs: [
-        {
-          name: 'title',
-          type: 'text',
-          placeholder: 'Título del Post',
-        },
-        {
-          name: 'body',
-          type: 'textarea',
-          placeholder: 'Contenido del Post',
-        },
+        { name: 'title', type: 'text', placeholder: 'Título del Post' },
+        { name: 'body', type: 'textarea', placeholder: 'Contenido del Post' },
       ],
       buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-        },
+        { text: 'Cancelar', role: 'cancel' },
         {
           text: 'Guardar',
           handler: (data) => {
@@ -96,7 +118,6 @@ export class LobbyPage implements CanComponentDeactivate, OnInit {
         },
       ],
     });
-
     await alert.present();
   }
 
@@ -104,100 +125,74 @@ export class LobbyPage implements CanComponentDeactivate, OnInit {
     const alert = await this.alertController.create({
       header: 'Editar Post',
       inputs: [
-        {
-          name: 'title',
-          type: 'text',
-          value: post.title,
-          placeholder: 'Título del Post',
-        },
-        {
-          name: 'body',
-          type: 'textarea',
-          value: post.body,
-          placeholder: 'Contenido del Post',
-        },
+        { name: 'title', type: 'text', value: post.title },
+        { name: 'body', type: 'textarea', value: post.body },
       ],
       buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-        },
+        { text: 'Cancelar', role: 'cancel' },
         {
           text: 'Guardar',
           handler: (data) => {
             const updatedPost = { ...post, ...data };
-            console.log('Post actualizado:', updatedPost);  // Verifica que la actualización esté correcta
-            
             this.apiService.updatePost(updatedPost.id, updatedPost).subscribe(() => {
               const index = this.posts.findIndex((p) => p.id === updatedPost.id);
-              if (index > -1) {
-                this.posts[index] = updatedPost;
-              }
+              if (index > -1) this.posts[index] = updatedPost;
             });
           },
         },
       ],
     });
-  
     await alert.present();
   }
-  
-  
+
   async confirmDelete(id: number) {
     const alert = await this.alertController.create({
       header: 'Eliminar Post',
       message: '¿Estás seguro de que deseas eliminar este post?',
       buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-        },
+        { text: 'Cancelar', role: 'cancel' },
         {
           text: 'Eliminar',
-          handler: () => {
-            this.deletePosts(id);
-          },
+          handler: () => this.deletePost(id),
         },
       ],
     });
-
     await alert.present();
   }
 
-  deletePosts(id: number) {
+  private deletePost(id: number) {
     this.apiService.deletePost(id).subscribe(() => {
-      this.posts = this.posts.filter((posts) => posts.id !== id);
+      this.posts = this.posts.filter((post) => post.id !== id);
     });
   }
 
+  // **Manejo de Canción**
+  cargarCancion(index: number) {
+    if (this.audio) this.audio.pause();
+    this.audio = new Audio(this.song[index].path);
+  }
+
+  // **Cerrar sesión**
   canDeactivate(): boolean {
-    return confirm('¿Estás seguro que deseas cerrar sesión?');
+    return confirm('¿Estás seguro de que deseas cerrar sesión?');
   }
 
   logout() {
     if (this.canDeactivate()) {
       this.authService.logout();
-      console.log("Sesión cerrada");
-      this.audio.pause();
+      this.audio?.pause();
       this.router.navigate(['/home']);
     }
   }
 
+  // **Alertas generales**
   async presentAlert(header: string, subHeader: string, message: string) {
     const alert = await this.alertController.create({
-      header: header,
-      subHeader: subHeader,
-      message: message,
+      header,
+      subHeader,
+      message,
       buttons: ['OK'],
     });
-
     await alert.present();
-  }
-
-  deletePost(id: number) {
-    this.apiService.deletePost(id).subscribe(() => {
-      this.posts = this.posts.filter(post => post.id !== id);
-      console.log("Post Eliminado:", id);
-    });
   }
 }
