@@ -70,30 +70,46 @@
       </ion-list>
     </ion-card>
   </div>
-  <ion-list>
+  <ion-toolbar>
+    <ion-title>Consultar Asistencia</ion-title>
+  </ion-toolbar>
+  <ion-content>
+    <!-- Formulario para consultar asistencia -->
     <ion-item>
-      <!-- Botón de agregar post a la derecha -->
-      <ion-button (click)="addPosts()" class="add-post-btn">
-        <ion-icon slot="icon-only" name="pencil"></ion-icon>
-      </ion-button>
+      <ion-label position="floating">Fecha</ion-label>
+      <ion-input [(ngModel)]="date" type="date"></ion-input>
     </ion-item>
-
-    <ion-item *ngFor="let post of posts">
-      <ion-label>
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.body }}</p>
-      </ion-label>
-      <ion-buttons slot="end">
-        <ion-button (click)="editPost(post)">
-          <ion-icon slot="icon-only" name="create"></ion-icon>
-        </ion-button>
-        <ion-button (click)="confirmDelete(post.id)">
-          <ion-icon slot="icon-only" name="remove"></ion-icon>
-        </ion-button>
-      </ion-buttons>
+  
+    <ion-item>
+      <ion-label position="floating">Sección</ion-label>
+      <ion-select [(ngModel)]="section">
+        <ion-select-option *ngFor="let section of sections" [value]="section.name">
+          {{ section.name }} - {{ section.subject }}
+        </ion-select-option>
+      </ion-select>
     </ion-item>
-  </ion-list>
-</ion-content>
+  
+    <ion-button expand="full" (click)="consultAttendance()">Consultar Asistencia</ion-button>
+  
+    <ion-list *ngIf="attendanceRecords.length > 0">
+      <ion-item *ngFor="let record of attendanceRecords">
+        <ion-label>
+          <h2>Estudiante: {{ record.studentId }}</h2>
+          <p>Fecha: {{ record.date | date: 'yyyy-MM-dd' }}</p>
+          <p>Sección: {{ record.section }}</p>
+          <p>Estado de Asistencia: {{ record.attendanceStatus }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    
+    <!-- Mostrar un mensaje si no hay registros -->
+    <ion-list *ngIf="attendanceRecords.length === 0">
+      <ion-item>
+        <ion-label>
+          <h2>No se encontraron registros de asistencia</h2>
+        </ion-label>
+      </ion-item>
+    </ion-list>
 
 <style>
   .start-class-btn {

@@ -7,7 +7,8 @@ import { ApiService } from '../services/api.service';
 import { Storage } from '@ionic/storage-angular';
 import * as QRCode from 'qrcode';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpParams } from '@angular/common/http';
+
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.page.html',
@@ -15,7 +16,11 @@ import { Observable, of } from 'rxjs';
 })
 export class AdminPage implements CanComponentDeactivate, OnInit {
   nombre_usuario: string = '';
+  date: string = '';
+  section: string = '';
+  attendanceRecords: any[] = [];
   nombreAlmacenado: string | null = null;
+  errorMessage: string = '';
   posts: any[] = [];
   qrCodeUrl: string = '';
   userData: any;
@@ -37,7 +42,6 @@ export class AdminPage implements CanComponentDeactivate, OnInit {
     private http: HttpClient
   ) {}
 
-  
   async generateQRCode(section: any) {
     const data = {
       section: section.name,
@@ -47,10 +51,11 @@ export class AdminPage implements CanComponentDeactivate, OnInit {
 
     try {
       const qrCodeUrl = await QRCode.toDataURL(JSON.stringify(data));
-      this.qrCodes = [
-        ...this.qrCodes.filter(qr => qr.section !== section.name), // Evita duplicados
-        { section: section.name, url: qrCodeUrl },
-      ];
+
+      // Solo se añade si no existe un QR con esta sección
+      if (!this.qrCodes.some(qr => qr.section === section.name)) {
+        this.qrCodes.push({ section: section.name, url: qrCodeUrl });
+      }
 
       this.selectedQRCode = qrCodeUrl; // Actualiza la imagen del QR
     } catch (err) {
@@ -58,10 +63,10 @@ export class AdminPage implements CanComponentDeactivate, OnInit {
     }
   }
 
-
   generateSessionId(): string {
     return Math.random().toString(36).substring(2, 15); 
   }
+
   async ngOnInit() {
     await this.storage.create();
     this.obtenerNombre();
@@ -72,130 +77,13 @@ export class AdminPage implements CanComponentDeactivate, OnInit {
     } else {
       this.nombre_usuario = this.nombreAlmacenado || 'profesor';
     }
-    this.loadUserData();
-    this.loadPosts();
   }
-  loadUserData() {
-    this.apiService.getUserData().subscribe(
-      (data) => {
-        this.userData = data;
-        console.log('Datos recibidos:', this.userData);
-      },
-      (error) => {
-        console.error('Error al obtener los datos', error);
-      }
-    );
-  }
+
+
+
   async obtenerNombre() {
     this.nombreAlmacenado = await this.storage.get('nombre');
     console.log('Nombre almacenado:', this.nombreAlmacenado);
-  }
-
-  loadPosts() {
-    this.apiService.getPosts().subscribe((data: any[]) => {
-      this.posts = data;
-    });
-  }
-
-  async addPosts() {
-    const alert = await this.alertController.create({
-      header: 'Añadir Post',
-      inputs: [
-        {
-          name: 'title',
-          type: 'text',
-          placeholder: 'Título del Post',
-        },
-        {
-          name: 'body',
-          type: 'textarea',
-          placeholder: 'Contenido del Post',
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-        },
-        {
-          text: 'Guardar',
-          handler: (data) => {
-            this.apiService.addPost(data).subscribe((newPost) => {
-              this.posts.push(newPost);
-            });
-          },
-        },
-      ],
-    });
-
-    await alert.present();
-  }
-
-  async editPost(post: any) {
-    const alert = await this.alertController.create({
-      header: 'Editar Post',
-      inputs: [
-        {
-          name: 'title',
-          type: 'text',
-          value: post.title,
-          placeholder: 'Título del Post',
-        },
-        {
-          name: 'body',
-          type: 'textarea',
-          value: post.body,
-          placeholder: 'Contenido del Post',
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-        },
-        {
-          text: 'Guardar',
-          handler: (data) => {
-            const updatedPost = { ...post, ...data };
-            this.apiService.updatePost(updatedPost.id, updatedPost).subscribe(() => {
-              const index = this.posts.findIndex((p) => p.id === updatedPost.id);
-              if (index > -1) {
-                this.posts[index] = updatedPost;
-              }
-            });
-          },
-        },
-      ],
-    });
-
-    await alert.present();
-  }
-
-  async confirmDelete(id: number) {
-    const alert = await this.alertController.create({
-      header: 'Eliminar Post',
-      message: '¿Estás seguro de que deseas eliminar este post?',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-        },
-        {
-          text: 'Eliminar',
-          handler: () => {
-            this.deletePosts(id);
-          },
-        },
-      ],
-    });
-
-    await alert.present();
-  }
-
-  deletePosts(id: number) {
-    this.apiService.deletePost(id).subscribe(() => {
-      this.posts = this.posts.filter((post) => post.id !== id);
-    });
   }
 
   canDeactivate(): boolean {
@@ -228,7 +116,29 @@ export class AdminPage implements CanComponentDeactivate, OnInit {
     // Por ejemplo, puedes redirigir a otra página, o realizar alguna acción relacionada
     this.router.navigate(['/class']);
   }
+
   resetToGif() {
     this.selectedQRCode = null;
+  }
+
+  consultAttendance() {
+    if (!this.date || !this.section) {
+      alert('Debe proporcionar una fecha y sección válidas.');
+      return;
+    }
+  
+    this.apiService.getAttendance(this.date, this.section).subscribe(
+      (data) => {
+        this.attendanceRecords = data;
+        console.log('Asistencia:', data);
+      },
+      (error) => {
+        console.error('Error al consultar la asistencia:', error);
+        alert('Hubo un error al consultar los datos.');
+      }
+    );
+
+  
+  
   }
 }

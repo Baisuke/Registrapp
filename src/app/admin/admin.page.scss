@@ -135,3 +135,14 @@ ion-content {
     margin: 0 auto;
   }
 }
+
+.centered-item {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+.centered-item ion-datetime {
+  width: 100%; 
+  max-width: 300px; 
+}

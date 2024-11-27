@@ -1,43 +1,34 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
-  // URL de tu API personalizada
-  private apiUrl = 'http://localhost:3000/api'; // Cambia esto según la URL de tu backend
+  private baseUrl = 'http://localhost:3000/api'; // Ruta base del backend
 
   constructor(private http: HttpClient) {}
 
-  // Rutas para manejar los datos del usuario
-  storeUserData(userData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/storeUserData`, userData);
+  /**
+   * Obtiene la asistencia de una sección en una fecha específica.
+   * @param date Fecha en formato ISO o string válido.
+   * @param section Sección a consultar.
+   * @returns Observable con los datos de asistencia.
+   */
+  getAttendance(date: string, section: string): Observable<any> {
+    const formattedDate = new Date(date).toISOString().split('T')[0]; // Formato de la fecha
+    const params = new HttpParams().set('date', formattedDate).set('section', section);
+
+    return this.http.get(`${this.baseUrl}/get-attendance`, { params }); // Endpoint específico
   }
 
-  getUserData(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/getUserData`);
-  }
-
-  // Métodos existentes (JSONPlaceholder)
-  getPosts(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/posts`);
-  }
-
-  getPost(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/posts/${id}`);
-  }
-
-  addPost(post: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/posts`, post);
-  }
-
-  updatePost(id: number, post: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/posts/${id}`, post);
-  }
-
-  deletePost(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/posts/${id}`);
+  /**
+   * Marca la asistencia para un usuario.
+   * @param attendanceData Datos de asistencia a enviar.
+   * @returns Observable con la respuesta del backend.
+   */
+  markAttendance(attendanceData: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/mark-attendance`, attendanceData); // Endpoint ajustado
   }
 }

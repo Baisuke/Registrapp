@@ -40,7 +40,6 @@ export class LobbyPage implements CanComponentDeactivate, OnInit {
   async ngOnInit() {
     this.nombre_usuario = this.router.getCurrentNavigation()?.extras?.state?.['nombre_usuario'] || 'usuario';
     this.cargarCancion(this.cancionActual);
-    this.loadPosts();
     await this.obtenerNombre();
   }
 
@@ -62,25 +61,48 @@ export class LobbyPage implements CanComponentDeactivate, OnInit {
       const result = await BarcodeScanner.startScan();
       if (result.hasContent) {
         const scannedData = JSON.parse(result.content); // Decodificar JSON del QR
+        const { sessionId, subject, section } = scannedData;
+
+        // Validar los datos escaneados
+        if (!sessionId || !subject || !section) {
+          this.presentAlert('Error', 'Datos incompletos', 'El QR escaneado no contiene todos los datos necesarios.');
+          return;
+        }
+
+        // Validar si el nombre del alumno está almacenado
+        if (!this.nombreAlmacenado) {
+          this.presentAlert('Error', 'Nombre no encontrado', 'No se ha encontrado tu nombre almacenado. Por favor, verifica tu sesión.');
+          return;
+        }
+
         const userData = {
-          user: 'Alumno123',
-          date: new Date().toISOString(),
-          subject: scannedData.subject,
-          section: scannedData.section,
-          sessionId: scannedData.sessionId,
+          studentId: this.nombreAlmacenado,  // El id del alumno que escanea el QR
+          sessionId: sessionId,       // El sessionId generado por el profesor
+          subject: subject,           // Asignatura
+          section: section,           // Sección
+          attendanceStatus: 'presente', // Estado de la asistencia
+          date: new Date().toISOString()  // Fecha de escaneo
         };
 
+        // Enviar los datos del alumno al backend
         this.sendUserData(userData);
       }
     } catch (err) {
       console.error('Error al escanear el QR:', err);
+      this.presentAlert('Error', 'Error en el escaneo', 'Hubo un problema al escanear el código QR.');
     }
   }
 
   private sendUserData(userData: any) {
     this.userDataService.sendUserData(userData).subscribe(
-      (response) => console.log('Datos enviados correctamente', response),
-      (error) => console.error('Error al enviar los datos', error)
+      (response) => {
+        console.log('Datos enviados correctamente', response);
+        this.presentAlert('Éxito', 'Asistencia registrada', 'Tu asistencia ha sido registrada correctamente.');
+      },
+      (error) => {
+        console.error('Error al enviar los datos', error);
+        this.presentAlert('Error', 'No se pudo registrar', 'Hubo un problema al registrar tu asistencia.');
+      }
     );
   }
 
@@ -89,80 +111,6 @@ export class LobbyPage implements CanComponentDeactivate, OnInit {
       title: 'Código QR Escaneado',
       text: content,
       dialogTitle: 'Compartir contenido',
-    });
-  }
-
-  // **Manejo de Posts**
-  private loadPosts() {
-    this.apiService.getPosts().subscribe((data: any[]) => {
-      this.posts = data;
-    });
-  }
-
-  async addPost() {
-    const alert = await this.alertController.create({
-      header: 'Añadir Post',
-      inputs: [
-        { name: 'title', type: 'text', placeholder: 'Título del Post' },
-        { name: 'body', type: 'textarea', placeholder: 'Contenido del Post' },
-      ],
-      buttons: [
-        { text: 'Cancelar', role: 'cancel' },
-        {
-          text: 'Guardar',
-          handler: (data) => {
-            this.apiService.addPost(data).subscribe((newNota) => {
-              this.posts.push(newNota);
-            });
-          },
-        },
-      ],
-    });
-    await alert.present();
-  }
-
-  async editPost(post: any) {
-    const alert = await this.alertController.create({
-      header: 'Editar Post',
-      inputs: [
-        { name: 'title', type: 'text', value: post.title },
-        { name: 'body', type: 'textarea', value: post.body },
-      ],
-      buttons: [
-        { text: 'Cancelar', role: 'cancel' },
-        {
-          text: 'Guardar',
-          handler: (data) => {
-            const updatedPost = { ...post, ...data };
-            this.apiService.updatePost(updatedPost.id, updatedPost).subscribe(() => {
-              const index = this.posts.findIndex((p) => p.id === updatedPost.id);
-              if (index > -1) this.posts[index] = updatedPost;
-            });
-          },
-        },
-      ],
-    });
-    await alert.present();
-  }
-
-  async confirmDelete(id: number) {
-    const alert = await this.alertController.create({
-      header: 'Eliminar Post',
-      message: '¿Estás seguro de que deseas eliminar este post?',
-      buttons: [
-        { text: 'Cancelar', role: 'cancel' },
-        {
-          text: 'Eliminar',
-          handler: () => this.deletePost(id),
-        },
-      ],
-    });
-    await alert.present();
-  }
-
-  private deletePost(id: number) {
-    this.apiService.deletePost(id).subscribe(() => {
-      this.posts = this.posts.filter((post) => post.id !== id);
     });
   }
 
