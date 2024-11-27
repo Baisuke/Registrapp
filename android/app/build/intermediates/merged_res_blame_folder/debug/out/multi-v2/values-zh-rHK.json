@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "io.ionic.starter.app-mergeDebugResources-24:/values-zh-rHK/values-zh-rHK.xml",
+            "outputFile": "io.ionic.starter.app-mergeDebugResources-25:/values-zh-rHK/values-zh-rHK.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Bastian\\.gradle\\caches\\transforms-3\\4ce7c60d257b8629ab4c81cf615a92a1\\transformed\\appcompat-1.6.1\\res\\values-zh-rHK\\values-zh-rHK.xml",
@@ -35,6 +35,23 @@
                         "startOffsets": "2666,2758,2857,2951,3045,3138,3231,3406",
                         "endColumns": "91,98,93,93,92,92,95,100",
                         "endOffsets": "2753,2852,2946,3040,3133,3226,3322,3502"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Bastian\\.gradle\\caches\\transforms-3\\f16dc51de4392ecc6899d5f97d7e62a0\\transformed\\zxing-android-embedded-4.3.0\\res\\values-zh-rHK\\values-zh-rHK.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,104,151,244",
+                        "endColumns": "48,46,92,69",
+                        "endOffsets": "99,146,239,309"
+                    },
+                    "to": {
+                        "startLines": "38,39,40,41",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "3507,3556,3603,3696",
+                        "endColumns": "48,46,92,69",
+                        "endOffsets": "3551,3598,3691,3761"
                     }
                 }
             ]

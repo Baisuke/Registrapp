@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "io.ionic.starter.app-mergeDebugResources-24:/values-cs/values-cs.xml",
+            "outputFile": "io.ionic.starter.app-mergeDebugResources-25:/values-cs/values-cs.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Bastian\\.gradle\\caches\\transforms-3\\4ce7c60d257b8629ab4c81cf615a92a1\\transformed\\appcompat-1.6.1\\res\\values-cs\\values-cs.xml",
@@ -35,6 +35,23 @@
                         "startOffsets": "2799,2897,2999,3100,3199,3304,3411,3613",
                         "endColumns": "97,101,100,98,104,106,118,100",
                         "endOffsets": "2892,2994,3095,3194,3299,3406,3525,3709"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Bastian\\.gradle\\caches\\transforms-3\\f16dc51de4392ecc6899d5f97d7e62a0\\transformed\\zxing-android-embedded-4.3.0\\res\\values-cs\\values-cs.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,114,161,311",
+                        "endColumns": "58,46,149,83",
+                        "endOffsets": "109,156,306,390"
+                    },
+                    "to": {
+                        "startLines": "38,39,40,41",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "3714,3773,3820,3970",
+                        "endColumns": "58,46,149,83",
+                        "endOffsets": "3768,3815,3965,4049"
                     }
                 }
             ]

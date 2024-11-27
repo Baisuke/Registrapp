@@ -9,7 +9,7 @@ export class UserDataService {
 
   constructor(private http: HttpClient) {}
 
-  sendUserData(userData: any): Observable<any> {
-    return this.http.post('http://tuservidor.com/api/sendUserData', userData);
+  sendUserData(userData: any) {
+    return this.http.post('192.168.140.15:3000/api/mark-attendance', userData);
   }
 }

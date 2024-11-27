@@ -7,7 +7,7 @@ import { ApiService } from '../services/api.service';
 import { Storage } from '@ionic/storage-angular';
 import * as QRCode from 'qrcode';
 import { HttpClient } from '@angular/common/http';
-import { HttpParams } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-admin',
@@ -21,7 +21,6 @@ export class AdminPage implements CanComponentDeactivate, OnInit {
   attendanceRecords: any[] = [];
   nombreAlmacenado: string | null = null;
   errorMessage: string = '';
-  posts: any[] = [];
   qrCodeUrl: string = '';
   userData: any;
   qrCodes: Array<{ section: string; url: string }> = [];

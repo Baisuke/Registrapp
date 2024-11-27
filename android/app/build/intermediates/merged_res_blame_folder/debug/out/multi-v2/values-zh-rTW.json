@@ -1,8 +1,25 @@
 {
     "logs": [
         {
-            "outputFile": "io.ionic.starter.app-mergeDebugResources-24:/values-zh-rTW/values-zh-rTW.xml",
+            "outputFile": "io.ionic.starter.app-mergeDebugResources-25:/values-zh-rTW/values-zh-rTW.xml",
             "map": [
+                {
+                    "source": "C:\\Users\\Bastian\\.gradle\\caches\\transforms-3\\f16dc51de4392ecc6899d5f97d7e62a0\\transformed\\zxing-android-embedded-4.3.0\\res\\values-zh-rTW\\values-zh-rTW.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,104,151,244",
+                        "endColumns": "48,46,92,69",
+                        "endOffsets": "99,146,239,309"
+                    },
+                    "to": {
+                        "startLines": "38,39,40,41",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "3512,3561,3608,3701",
+                        "endColumns": "48,46,92,69",
+                        "endOffsets": "3556,3603,3696,3766"
+                    }
+                },
                 {
                     "source": "C:\\Users\\Bastian\\.gradle\\caches\\transforms-3\\4f7b0d764f8b5d0d84c4d0344e1adc27\\transformed\\core-1.12.0\\res\\values-zh-rTW\\values-zh-rTW.xml",
                     "from": {

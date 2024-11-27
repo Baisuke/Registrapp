@@ -3,11 +3,18 @@ import { MongoClient } from 'mongodb';
 import cors from 'cors';
 import QRCode from 'qrcode';
 
+
 const app = express();
 const port = 3000;
+const corsOptions = {
+  origin: ['http://tuservidor.com', 'http://localhost:4200', 'http://192.168.x.x:3000'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 // Middleware
-app.use(cors());
 app.use(express.json()); // Procesa cuerpos JSON
 
 const mongoUri = "mongodb+srv://usuario:inazuma2@cluster0.5q3gh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
@@ -49,7 +56,8 @@ app.get('/api/get-attendance', async (req, res) => {
 });
 
 // **Endpoint para marcar asistencia**
-app.post('/api/mark-attendance', async (req, res) => {
+app.post('192.168.140.15:3000/api/mark-attendance', async (req, res) => {
+  console.log('Ruta /api/mark-attendance llamada');
   const { studentId, sessionId, subject, attendanceStatus, date } = req.body;
 
   if (!studentId || !sessionId || !subject || !attendanceStatus || !date) {
@@ -76,22 +84,23 @@ app.post('/api/mark-attendance', async (req, res) => {
   }
 });
 
-// **Endpoint para generar QR**
-app.get('/generate-qrcode', (req, res) => {
+app.get('/generate-qrcode', async (req, res) => {
   const { sessionId, subject } = req.query;
 
+  // Validar parámetros
   if (!sessionId || !subject) {
-    return res.status(400).send('Faltan parámetros requeridos: sessionId o subject');
+    return res.status(400).json({ error: 'Faltan parámetros: sessionId o subject' });
   }
 
   const data = { sessionId, subject };
 
-  QRCode.toDataURL(JSON.stringify(data), function (err, url) {
+  // Generar y enviar el código QR
+  QRCode.toDataURL(JSON.stringify(data), (err, url) => {
     if (err) {
-      console.error('Error generando el código QR', err);
-      res.status(500).send('Error generando el código QR');
+      console.error('Error generando QR:', err);
+      res.status(500).send('Error generando el QR');
     } else {
-      res.send(url);
+      res.send(url); // Retorna el código QR en formato Base64
     }
   });
 });

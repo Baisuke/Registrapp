@@ -35,7 +35,22 @@ export class LobbyPage implements CanComponentDeactivate, OnInit {
   ) {
     this.initStorage();
   }
+  async CheckPermission() {
+    try
+    {
+      const status = await BarcodeScanner.checkPermission({force:true}); 
+      if(status.granted) {
+        return true;
+      }
 
+      return false;
+
+    }
+    catch(e)
+    {
+      return undefined;
+    }
+  }
   // **Métodos de ciclo de vida**
   async ngOnInit() {
     this.nombre_usuario = this.router.getCurrentNavigation()?.extras?.state?.['nombre_usuario'] || 'usuario';
@@ -53,55 +68,58 @@ export class LobbyPage implements CanComponentDeactivate, OnInit {
     console.log('Nombre almacenado:', this.nombreAlmacenado);
   }
 
-  // **Manejo de QR**
   async scanQRCode() {
     try {
+      const hasPermission = await this.CheckPermission();
+      if (!hasPermission) {
+        this.presentAlert('Error', 'Permiso denegado', 'No se ha concedido permiso para escanear QR.');
+        return;
+      }
+  
       await BarcodeScanner.prepare();
-
       const result = await BarcodeScanner.startScan();
+  
       if (result.hasContent) {
         const scannedData = JSON.parse(result.content); // Decodificar JSON del QR
         const { sessionId, subject, section } = scannedData;
-
-        // Validar los datos escaneados
+  
         if (!sessionId || !subject || !section) {
           this.presentAlert('Error', 'Datos incompletos', 'El QR escaneado no contiene todos los datos necesarios.');
           return;
         }
-
-        // Validar si el nombre del alumno está almacenado
+  
         if (!this.nombreAlmacenado) {
           this.presentAlert('Error', 'Nombre no encontrado', 'No se ha encontrado tu nombre almacenado. Por favor, verifica tu sesión.');
           return;
         }
-
+  
         const userData = {
-          studentId: this.nombreAlmacenado,  // El id del alumno que escanea el QR
-          sessionId: sessionId,       // El sessionId generado por el profesor
-          subject: subject,           // Asignatura
-          section: section,           // Sección
-          attendanceStatus: 'presente', // Estado de la asistencia
-          date: new Date().toISOString()  // Fecha de escaneo
+          studentId: this.nombreAlmacenado,
+          sessionId,
+          subject,
+          section,
+          attendanceStatus: 'presente',
+          date: new Date().toISOString(),
         };
-
-        // Enviar los datos del alumno al backend
-        this.sendUserData(userData);
+  
+        this.sendData(userData);
       }
     } catch (err) {
       console.error('Error al escanear el QR:', err);
       this.presentAlert('Error', 'Error en el escaneo', 'Hubo un problema al escanear el código QR.');
     }
   }
+  
 
-  private sendUserData(userData: any) {
+  sendData(userData: any) {
     this.userDataService.sendUserData(userData).subscribe(
       (response) => {
         console.log('Datos enviados correctamente', response);
-        this.presentAlert('Éxito', 'Asistencia registrada', 'Tu asistencia ha sido registrada correctamente.');
+        // Puedes mostrar un mensaje de éxito aquí si lo deseas
       },
       (error) => {
         console.error('Error al enviar los datos', error);
-        this.presentAlert('Error', 'No se pudo registrar', 'Hubo un problema al registrar tu asistencia.');
+        // Aquí puedes manejar el error, por ejemplo, mostrar una alerta
       }
     );
   }
