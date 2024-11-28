@@ -1,4 +1,4 @@
-#Wed Nov 27 19:34:44 CLST 2024
+#Thu Nov 28 01:41:11 CLST 2024
 base.0=C\:\\Users\\Bastian\\Desktop\\Registrapp\\android\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=C\:\\Users\\Bastian\\Desktop\\Registrapp\\android\\app\\build\\intermediates\\dex\\debug\\mergeLibDexDebug\\0\\classes.dex
 base.2=C\:\\Users\\Bastian\\Desktop\\Registrapp\\android\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex

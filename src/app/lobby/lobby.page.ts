@@ -53,19 +53,15 @@ export class LobbyPage implements CanComponentDeactivate, OnInit {
   
   // **Métodos de ciclo de vida**
   async ngOnInit() {
-    this.nombre_usuario = this.router.getCurrentNavigation()?.extras?.state?.['nombre_usuario'] || 'usuario';
-    this.cargarCancion(this.cancionActual);
-    await this.obtenerNombre();
+    this.nombre_usuario = this.router.getCurrentNavigation()?.extras?.state?.['nombre_usuario'] 
+                          || localStorage.getItem('userName') 
+                          || 'Usuario';
+    console.log('Nombre mostrado en LobbyPage:', this.nombre_usuario);
   }
-
-  // **Inicialización de Storage**
+  
+  
   private async initStorage() {
     await this.storage.create();
-  }
-
-  private async obtenerNombre() {
-    this.nombreAlmacenado = await this.storage.get('nombre');
-    console.log('Nombre almacenado:', this.nombreAlmacenado);
   }
 
   async scanQRCode() {

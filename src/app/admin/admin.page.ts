@@ -67,15 +67,10 @@ export class AdminPage implements CanComponentDeactivate, OnInit {
   }
 
   async ngOnInit() {
-    await this.storage.create();
-    this.obtenerNombre();
-
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras?.state) {
-      this.nombre_usuario = navigation.extras.state['nombre_usuario'] || 'profesor';
-    } else {
-      this.nombre_usuario = this.nombreAlmacenado || 'profesor';
-    }
+    this.nombre_usuario = this.router.getCurrentNavigation()?.extras?.state?.['nombre_usuario'] 
+                          || localStorage.getItem('userName') 
+                          || 'Usuario';
+    console.log('Nombre mostrado en LobbyPage:', this.nombre_usuario);
   }
 
 

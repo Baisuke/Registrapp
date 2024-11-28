@@ -23,55 +23,47 @@ export class HomePage {
   ) {
     this.initStorage();
     this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
+      username: ['', [Validators.required, Validators.minLength(4)]],
+      password: ['', [Validators.required, Validators.minLength(4)]],
     });
   }
 
   async initStorage() {
-    await this.storage.create(); // Inicializamos el almacenamiento
-    this.nombreAlmacenado = await this.storage.get('nombre') || null;
+    await this.storage.create();
+    this.nombreAlmacenado = await this.storage.get('nombre');
+    if (this.nombreAlmacenado) {
+      this.router.navigate(['/lobby'], { state: { nombre_usuario: this.nombreAlmacenado } });
+    }
   }
 
-  async guardarNombre(username: string) {
-    await this.storage.set('nombre', username);
-    this.nombreAlmacenado = username;
-    console.log('Nombre guardado:', username);
-  }
-
-  async eliminarNombre() {
-    await this.storage.remove('nombre');
-    this.nombreAlmacenado = null;
-    console.log('Nombre eliminado');
-  }
-
-  async limpiarStorage() {
-    await this.storage.clear();
-    this.nombreAlmacenado = null;
-    console.log('Almacenamiento limpiado');
+  async guardarNombre(nombre_usuario: string) {
+    await this.storage.set('nombre', nombre_usuario);
+    this.nombreAlmacenado = nombre_usuario;
+    console.log('Nombre guardado:', nombre_usuario);
   }
 
   async onLogin() {
     if (this.loginForm.valid) {
-      const { username, password } = this.loginForm.value;
+      const { username, password } = this.loginForm.value; // Aquí, username es el RUT.
       const isValidLogin = this.authService.login(username, password);
-
+  
       if (isValidLogin) {
-        await this.guardarNombre(username); // Guarda el nombre del usuario
-
+        const userName = this.authService.getUserName(); // Obtén el nombre del usuario.
         const role = this.authService.getUserRole();
+  
         if (role === 'profesor') {
-          this.router.navigate(['/admin'], { state: { username } });
+          this.router.navigate(['/admin'], { state: { nombre_usuario: userName } });
         } else if (role === 'usuario') {
-          this.router.navigate(['/lobby'], { state: { username } });
+          this.router.navigate(['/lobby'], { state: { nombre_usuario: userName } });
         }
       } else {
-        this.presentAlert('Error', 'Acceso Denegado', 'Usuario o contraseña incorrectos.');
+        this.presentAlert('Error', 'Acceso Denegado', 'RUT o contraseña incorrectos.');
       }
     } else {
       this.presentAlert('Error', 'Datos incompletos', 'Por favor, completa todos los campos.');
     }
   }
+  
 
   async presentAlert(header: string, subHeader: string, message: string) {
     const alert = await this.alertController.create({
