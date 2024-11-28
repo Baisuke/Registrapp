@@ -45,3 +45,13 @@ ion-button{
     letter-spacing: 0;
     font-weight: 400;
 }
+
+html, body {
+    background: transparent !important;
+    overflow: hidden;
+  }
+  
+  ion-content {
+    --background: transparent !important;
+  }
+  

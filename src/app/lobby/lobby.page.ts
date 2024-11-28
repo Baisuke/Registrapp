@@ -36,21 +36,21 @@ export class LobbyPage implements CanComponentDeactivate, OnInit {
     this.initStorage();
   }
   async CheckPermission() {
-    try
-    {
-      const status = await BarcodeScanner.checkPermission({force:true}); 
-      if(status.granted) {
+    try {
+      const status = await BarcodeScanner.checkPermission({ force: true });
+      if (status.granted) {
         return true;
+      } else if (status.denied) {
+        // Abrir configuración si el permiso es denegado
+        await BarcodeScanner.openAppSettings();
       }
-
       return false;
-
-    }
-    catch(e)
-    {
-      return undefined;
+    } catch (error) {
+      console.error('Error al verificar permisos de cámara:', error);
+      return false;
     }
   }
+  
   // **Métodos de ciclo de vida**
   async ngOnInit() {
     this.nombre_usuario = this.router.getCurrentNavigation()?.extras?.state?.['nombre_usuario'] || 'usuario';
@@ -77,10 +77,11 @@ export class LobbyPage implements CanComponentDeactivate, OnInit {
       }
   
       await BarcodeScanner.prepare();
+  
       const result = await BarcodeScanner.startScan();
   
       if (result.hasContent) {
-        const scannedData = JSON.parse(result.content); // Decodificar JSON del QR
+        const scannedData = JSON.parse(result.content);
         const { sessionId, subject, section } = scannedData;
   
         if (!sessionId || !subject || !section) {
@@ -89,7 +90,7 @@ export class LobbyPage implements CanComponentDeactivate, OnInit {
         }
   
         if (!this.nombreAlmacenado) {
-          this.presentAlert('Error', 'Nombre no encontrado', 'No se ha encontrado tu nombre almacenado. Por favor, verifica tu sesión.');
+          this.presentAlert('Error', 'Nombre no encontrado', 'No se ha encontrado tu nombre almacenado.');
           return;
         }
   
@@ -104,32 +105,49 @@ export class LobbyPage implements CanComponentDeactivate, OnInit {
   
         this.sendData(userData);
       }
-    } catch (err) {
-      console.error('Error al escanear el QR:', err);
+    } catch (error) {
+      console.error('Error al escanear el QR:', error);
       this.presentAlert('Error', 'Error en el escaneo', 'Hubo un problema al escanear el código QR.');
+    } finally {
+      await BarcodeScanner.stopScan(); // Detener la cámara
     }
   }
   
 
   sendData(userData: any) {
+    // Agregar la sección y formatear la fecha
+    userData.section = userData.section || ''; // Asegúrate de que la sección esté presente
+    userData.date = new Date(userData.date).toISOString().split('T')[0]; // Formatear la fecha
+  
     this.userDataService.sendUserData(userData).subscribe(
-      (response) => {
-        console.log('Datos enviados correctamente', response);
-        // Puedes mostrar un mensaje de éxito aquí si lo deseas
+      async (response) => {
+        console.log('Datos enviados correctamente:', response);
+        await this.presentAlert('Éxito', '', 'La asistencia se ha registrado correctamente.');
       },
-      (error) => {
-        console.error('Error al enviar los datos', error);
-        // Aquí puedes manejar el error, por ejemplo, mostrar una alerta
+      async (error) => {
+        console.error('Error al enviar los datos:', error);
+        await this.presentAlert(
+          'Error',
+          'Error al registrar asistencia',
+          'No se pudo registrar la asistencia. Por favor, intenta de nuevo.'
+        );
       }
     );
   }
+  
+  
 
   async shareContent(content: string) {
-    await Share.share({
-      title: 'Código QR Escaneado',
-      text: content,
-      dialogTitle: 'Compartir contenido',
-    });
+    try {
+      await Share.share({
+        title: 'Código QR Escaneado',
+        text: content,
+        dialogTitle: 'Compartir contenido',
+      });
+    } catch (error) {
+      console.error('Error al compartir contenido:', error);
+      this.presentAlert('Error', '', 'No se pudo compartir el contenido.');
+    }
   }
 
   // **Manejo de Canción**

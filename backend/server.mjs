@@ -3,7 +3,6 @@ import { MongoClient } from 'mongodb';
 import cors from 'cors';
 import QRCode from 'qrcode';
 
-
 const app = express();
 const port = 3000;
 const corsOptions = {
@@ -19,6 +18,7 @@ app.use(express.json()); // Procesa cuerpos JSON
 
 const mongoUri = "mongodb+srv://usuario:inazuma2@cluster0.5q3gh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const client = new MongoClient(mongoUri);
+
 // **Conexión inicial a MongoDB**
 async function connectDB() {
   try {
@@ -56,11 +56,12 @@ app.get('/api/get-attendance', async (req, res) => {
 });
 
 // **Endpoint para marcar asistencia**
-app.post('192.168.140.15:3000/api/mark-attendance', async (req, res) => {
+app.post('/api/mark-attendance', async (req, res) => {
   console.log('Ruta /api/mark-attendance llamada');
-  const { studentId, sessionId, subject, attendanceStatus, date } = req.body;
+  const { studentId, sessionId, subject, attendanceStatus, date, section } = req.body;
 
-  if (!studentId || !sessionId || !subject || !attendanceStatus || !date) {
+  // Validar que los datos requeridos estén presentes
+  if (!studentId || !sessionId || !subject || !attendanceStatus || !date || !section) {
     return res.status(400).json({ error: 'Faltan datos requeridos en el cuerpo de la solicitud' });
   }
 
@@ -68,12 +69,16 @@ app.post('192.168.140.15:3000/api/mark-attendance', async (req, res) => {
     const database = client.db("registrapp");
     const attendance = database.collection("attendance");
 
+    // Formatear la fecha para que solo incluya YYYY-MM-DD
+    const formattedDate = new Date(date).toISOString().split('T')[0];
+
     const newRecord = {
       studentId,
       sessionId,
       subject,
       attendanceStatus,
-      date,
+      date: formattedDate,
+      section, // Guardar la sección también
     };
 
     await attendance.insertOne(newRecord);
@@ -85,28 +90,32 @@ app.post('192.168.140.15:3000/api/mark-attendance', async (req, res) => {
 });
 
 app.get('/generate-qrcode', async (req, res) => {
-  const { sessionId, subject } = req.query;
+  const { sessionId, subject, section } = req.query;
 
   // Validar parámetros
-  if (!sessionId || !subject) {
-    return res.status(400).json({ error: 'Faltan parámetros: sessionId o subject' });
+  if (!sessionId || !subject || !section) {
+    return res.status(400).json({ error: 'Faltan parámetros: sessionId, subject o section' });
   }
 
-  const data = { sessionId, subject };
+  const data = {
+    sessionId, 
+    subject, 
+    section, 
+  };
 
-  // Generar y enviar el código QR
   QRCode.toDataURL(JSON.stringify(data), (err, url) => {
     if (err) {
       console.error('Error generando QR:', err);
-      res.status(500).send('Error generando el QR');
+      return res.status(500).json({ error: 'Error generando el QR' });
     } else {
-      res.send(url); // Retorna el código QR en formato Base64
+      res.json({ qrCodeUrl: url });
     }
   });
 });
 
+
 // **Iniciar Servidor**
-app.listen(port, async () => {
+app.listen(port, '0.0.0.0', async () => {
   await connectDB(); // Conexión inicial a la base de datos
-  console.log(`Servidor corriendo en http://localhost:${port}`);
+  console.log(`Servidor corriendo en http://0.0.0.0:${port}`);
 });

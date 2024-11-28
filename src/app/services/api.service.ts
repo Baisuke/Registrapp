@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService {
-  private baseUrl = 'http://localhost:3000/api'; // Ruta base del backend
+  private baseUrl = 'http://localhost:3000/api'; // Cambiar localhost por la IP del servidor
 
   constructor(private http: HttpClient) {}
 

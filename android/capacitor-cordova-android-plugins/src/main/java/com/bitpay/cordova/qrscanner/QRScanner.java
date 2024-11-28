@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import android.hardware.Camera;
 import android.provider.Settings;
 import androidx.core.app.ActivityCompat;
+
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
@@ -456,8 +457,7 @@ public class QRScanner extends CordovaPlugin implements BarcodeCallback {
                 //Configure the decoder
                 ArrayList<BarcodeFormat> formatList = new ArrayList<BarcodeFormat>();
                 formatList.add(BarcodeFormat.QR_CODE);
-              mBarcodeView.setDecoderFactory(new DefaultDecoderFactory(formatList, null, null, 0));
-
+                mBarcodeView.setDecoderFactory(new DefaultDecoderFactory(formatList, null, null, 0));
 
 
               //Configure the camera (front/back)

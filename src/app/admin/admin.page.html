@@ -64,7 +64,7 @@
       <ion-button *ngIf="selectedQRCode" (click)="resetToGif()">Deshacer</ion-button>
       <ion-list>
         <ion-item *ngFor="let section of sections">
-          <ion-label>{{ section.name }}</ion-label>
+          <ion-label>{{ section.subject }} - {{ section.name }}</ion-label>
           <ion-button (click)="generateQRCode(section)">Generar QR</ion-button>
         </ion-item>
       </ion-list>
@@ -110,7 +110,7 @@
         </ion-label>
       </ion-item>
     </ion-list>
-
+  </ion-content>
 <style>
   .start-class-btn {
     display: flex;

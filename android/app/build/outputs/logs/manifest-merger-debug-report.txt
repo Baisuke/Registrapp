@@ -11,10 +11,10 @@ INJECTED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidMa
 	android:name
 		ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:29:13-62
 manifest
-ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:2:1-44:12
-INJECTED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:2:1-44:12
-INJECTED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:2:1-44:12
-INJECTED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:2:1-44:12
+ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:2:1-43:12
+INJECTED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:2:1-43:12
+INJECTED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:2:1-43:12
+INJECTED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:2:1-43:12
 MERGED from [:capacitor-community-barcode-scanner] C:\Users\Bastian\Desktop\Registrapp\node_modules\@capacitor-community\barcode-scanner\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-12:12
 MERGED from [:capacitor-app] C:\Users\Bastian\Desktop\Registrapp\node_modules\@capacitor\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:capacitor-haptics] C:\Users\Bastian\Desktop\Registrapp\node_modules\@capacitor\haptics\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
@@ -124,40 +124,24 @@ category#android.intent.category.LAUNCHER
 ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:23:17-77
 	android:name
 		ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:23:27-74
-uses-permission#android.permission.CAMERA
-ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:40:5-89
-MERGED from [:capacitor-cordova-android-plugins] C:\Users\Bastian\Desktop\Registrapp\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-10:36
-MERGED from [:capacitor-cordova-android-plugins] C:\Users\Bastian\Desktop\Registrapp\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-10:36
-MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\Bastian\.gradle\caches\transforms-3\f16dc51de4392ecc6899d5f97d7e62a0\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:22:5-65
-MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\Bastian\.gradle\caches\transforms-3\f16dc51de4392ecc6899d5f97d7e62a0\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:22:5-65
-	android:required
-		ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:40:63-87
-	android:name
-		ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:40:22-62
-uses-feature#android.hardware.camera
-ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:41:5-84
-MERGED from [:capacitor-cordova-android-plugins] C:\Users\Bastian\Desktop\Registrapp\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:5-14:36
-MERGED from [:capacitor-cordova-android-plugins] C:\Users\Bastian\Desktop\Registrapp\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:5-14:36
-MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\Bastian\.gradle\caches\transforms-3\f16dc51de4392ecc6899d5f97d7e62a0\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:25:5-27:36
-MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\Bastian\.gradle\caches\transforms-3\f16dc51de4392ecc6899d5f97d7e62a0\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:25:5-27:36
-	android:required
-		ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:41:58-82
-	android:name
-		ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:41:19-57
-uses-feature#android.hardware.camera.front
-ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:42:5-90
-MERGED from [:capacitor-cordova-android-plugins] C:\Users\Bastian\Desktop\Registrapp\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:5-17:36
-MERGED from [:capacitor-cordova-android-plugins] C:\Users\Bastian\Desktop\Registrapp\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:5-17:36
-MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\Bastian\.gradle\caches\transforms-3\f16dc51de4392ecc6899d5f97d7e62a0\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:28:5-30:36
-MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\Bastian\.gradle\caches\transforms-3\f16dc51de4392ecc6899d5f97d7e62a0\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:28:5-30:36
-	android:required
-		ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:42:64-88
-	android:name
-		ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:42:19-63
 uses-permission#android.permission.INTERNET
-ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:43:5-67
+ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:40:5-67
 	android:name
-		ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:43:22-64
+		ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:40:22-64
+uses-permission#android.permission.CAMERA
+ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:41:5-65
+MERGED from [:capacitor-cordova-android-plugins] C:\Users\Bastian\Desktop\Registrapp\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-10:36
+MERGED from [:capacitor-cordova-android-plugins] C:\Users\Bastian\Desktop\Registrapp\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:8:5-10:36
+MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\Bastian\.gradle\caches\transforms-3\f16dc51de4392ecc6899d5f97d7e62a0\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:22:5-65
+MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\Bastian\.gradle\caches\transforms-3\f16dc51de4392ecc6899d5f97d7e62a0\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:22:5-65
+	android:required
+		ADDED from [:capacitor-cordova-android-plugins] C:\Users\Bastian\Desktop\Registrapp\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-33
+	android:name
+		ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:41:22-62
+uses-permission#android.permission.FLASHLIGHT
+ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:42:5-69
+	android:name
+		ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:42:22-66
 meta-data#android.support.FILE_PROVIDER_PATHS
 ADDED from C:\Users\Bastian\Desktop\Registrapp\android\app\src\main\AndroidManifest.xml:33:13-35:64
 	android:resource
@@ -262,6 +246,22 @@ uses-permission#android.permission.VIBRATE
 ADDED from [:capacitor-haptics] C:\Users\Bastian\Desktop\Registrapp\node_modules\@capacitor\haptics\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-66
 	android:name
 		ADDED from [:capacitor-haptics] C:\Users\Bastian\Desktop\Registrapp\node_modules\@capacitor\haptics\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:7:22-63
+uses-feature#android.hardware.camera
+ADDED from [:capacitor-cordova-android-plugins] C:\Users\Bastian\Desktop\Registrapp\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:5-14:36
+MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\Bastian\.gradle\caches\transforms-3\f16dc51de4392ecc6899d5f97d7e62a0\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:25:5-27:36
+MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\Bastian\.gradle\caches\transforms-3\f16dc51de4392ecc6899d5f97d7e62a0\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:25:5-27:36
+	android:required
+		ADDED from [:capacitor-cordova-android-plugins] C:\Users\Bastian\Desktop\Registrapp\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:14:9-33
+	android:name
+		ADDED from [:capacitor-cordova-android-plugins] C:\Users\Bastian\Desktop\Registrapp\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:9-47
+uses-feature#android.hardware.camera.front
+ADDED from [:capacitor-cordova-android-plugins] C:\Users\Bastian\Desktop\Registrapp\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:5-17:36
+MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\Bastian\.gradle\caches\transforms-3\f16dc51de4392ecc6899d5f97d7e62a0\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:28:5-30:36
+MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\Bastian\.gradle\caches\transforms-3\f16dc51de4392ecc6899d5f97d7e62a0\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:28:5-30:36
+	android:required
+		ADDED from [:capacitor-cordova-android-plugins] C:\Users\Bastian\Desktop\Registrapp\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:17:9-33
+	android:name
+		ADDED from [:capacitor-cordova-android-plugins] C:\Users\Bastian\Desktop\Registrapp\android\capacitor-cordova-android-plugins\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:9-53
 uses-feature#android.hardware.camera.autofocus
 ADDED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\Bastian\.gradle\caches\transforms-3\f16dc51de4392ecc6899d5f97d7e62a0\transformed\zxing-android-embedded-4.3.0\AndroidManifest.xml:33:5-35:36
 	android:required

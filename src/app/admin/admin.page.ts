@@ -45,18 +45,18 @@ export class AdminPage implements CanComponentDeactivate, OnInit {
     const data = {
       section: section.name,
       subject: section.subject,
-      sessionId: new Date().toISOString(), // Identificador único
+      sessionId: new Date().toISOString(), 
     };
 
     try {
       const qrCodeUrl = await QRCode.toDataURL(JSON.stringify(data));
 
-      // Solo se añade si no existe un QR con esta sección
+
       if (!this.qrCodes.some(qr => qr.section === section.name)) {
         this.qrCodes.push({ section: section.name, url: qrCodeUrl });
       }
 
-      this.selectedQRCode = qrCodeUrl; // Actualiza la imagen del QR
+      this.selectedQRCode = qrCodeUrl; 
     } catch (err) {
       console.error('Error al generar el código QR:', err);
     }
