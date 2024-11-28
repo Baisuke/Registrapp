@@ -42,6 +42,8 @@ export class HomePage {
     console.log('Nombre guardado:', nombre_usuario);
   }
 
+  
+
   async onLogin() {
     if (this.loginForm.valid) {
       const { username, password } = this.loginForm.value; // Aquí, username es el RUT.
@@ -51,10 +53,25 @@ export class HomePage {
         const userName = this.authService.getUserName(); // Obtén el nombre del usuario.
         const role = this.authService.getUserRole();
   
+        // Guardar en el almacenamiento local para reutilizar si es necesario.
+        await this.storage.set('userRut', username);
+        console.log('RUT guardado:', username);
+        await this.storage.set('userName', userName);
+  
         if (role === 'profesor') {
-          this.router.navigate(['/admin'], { state: { nombre_usuario: userName } });
+          this.router.navigate(['/admin'], { 
+            state: { 
+              nombre_usuario: userName, 
+              userRut: username // Pasar también el RUT 
+            } 
+          });
         } else if (role === 'usuario') {
-          this.router.navigate(['/lobby'], { state: { nombre_usuario: userName } });
+          this.router.navigate(['/lobby'], { 
+            state: { 
+              nombre_usuario: userName, 
+              userRut: username // Pasar también el RUT
+            } 
+          });
         }
       } else {
         this.presentAlert('Error', 'Acceso Denegado', 'RUT o contraseña incorrectos.');
@@ -63,6 +80,7 @@ export class HomePage {
       this.presentAlert('Error', 'Datos incompletos', 'Por favor, completa todos los campos.');
     }
   }
+  
   
 
   async presentAlert(header: string, subHeader: string, message: string) {

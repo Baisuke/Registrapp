@@ -17,6 +17,7 @@ import { UserDataService } from '../user-data.service';
 export class LobbyPage implements CanComponentDeactivate, OnInit {
   // **Propiedades**
   nombre_usuario: string = '';
+  userRut: string = '';
   nombreAlmacenado: string | null = null;
   audio: any;
   cancionActual: number = 0;
@@ -52,11 +53,19 @@ export class LobbyPage implements CanComponentDeactivate, OnInit {
   }
   
   // **Métodos de ciclo de vida**
-  async ngOnInit() {
-    this.nombre_usuario = this.router.getCurrentNavigation()?.extras?.state?.['nombre_usuario'] 
-                          || localStorage.getItem('userName') 
-                          || 'Usuario';
-    console.log('Nombre mostrado en LobbyPage:', this.nombre_usuario);
+  ngOnInit() {
+    this.nombre_usuario = 
+      this.router.getCurrentNavigation()?.extras?.state?.['nombre_usuario'] || 
+      localStorage.getItem('userName') || 
+      'Usuario';
+  
+    this.userRut = 
+      this.router.getCurrentNavigation()?.extras?.state?.['userRut'] || 
+      localStorage.getItem('userRut') || 
+      'Sin RUT';
+  
+    console.log('Nombre de usuario:', this.nombre_usuario);
+    console.log('RUT del usuario:', this.userRut);
   }
   
   
@@ -85,13 +94,13 @@ export class LobbyPage implements CanComponentDeactivate, OnInit {
           return;
         }
   
-        if (!this.nombreAlmacenado) {
+        if (!this.userRut) {
           this.presentAlert('Error', 'Nombre no encontrado', 'No se ha encontrado tu nombre almacenado.');
           return;
         }
   
         const userData = {
-          studentId: this.nombreAlmacenado,
+          studentId: this.userRut,
           sessionId,
           subject,
           section,
