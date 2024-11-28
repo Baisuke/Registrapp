@@ -23,8 +23,16 @@ const routes: Routes = [
     path: 'recuperarpass',
     loadChildren: () => import('./recuperarpass/recuperarpass.module').then((m) => m.RecuperarpassPageModule),
   },
-  
   { path: '', redirectTo: '/home', pathMatch: 'full' },
+
+  // Ruta para la página de error 404
+  {
+    path: 'not-found',
+    loadChildren: () => import('./not-found/not-found.module').then( m => m.NotFoundPageModule)
+  },
+
+  // Ruta wildcard para manejar cualquier otra ruta no definida
+  { path: '**', redirectTo: '/not-found' }, // Redirige a la página 404 si la ruta no existe
 ];
 
 @NgModule({
