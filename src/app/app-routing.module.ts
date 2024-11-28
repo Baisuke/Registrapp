@@ -19,6 +19,11 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
   },
+  {
+    path: 'recuperarpass',
+    loadChildren: () => import('./recuperarpass/recuperarpass.module').then((m) => m.RecuperarpassPageModule),
+  },
+  
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 
